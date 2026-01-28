@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* BizConnect Admin Dashboard Design System - All colors, gradients, fonts, etc defined here. 
+All colors MUST be HSL. */
+
+@layer base {
+  :root {
+    /* Core Brand Colors - BizConnect Teal */
+    --background: 0 0% 100%;
+    --foreground: 210 11% 15%;
+
+    /* BizConnect Primary Teal #01B1A6 */
+    --primary: 177 99% 35%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 177 99% 30%;
+    --primary-muted: 177 50% 95%;
+    --primary-light: 177 99% 85%;
+
+    /* Professional Gray Scale */
+    --secondary: 210 8% 97%;
+    --secondary-foreground: 210 11% 15%;
+    --muted: 210 8% 96%;
+    --muted-foreground: 210 6% 46%;
+
+    /* Status Colors - Enhanced for BizConnect */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 38 100% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* UI Elements - Clean & Modern */
+    --card: 0 0% 100%;
+    --card-foreground: 210 11% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 11% 15%;
+    --accent: 210 8% 96%;
+    --accent-foreground: 210 11% 15%;
+    --border: 210 8% 90%;
+    --input: 210 8% 94%;
+    --ring: 177 99% 35%;
+
+    /* Modern Elevated Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.03);
+    --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.08);
+    --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+    --shadow-primary: 0 4px 14px 0 hsl(177 99% 35% / 0.15);
+
+    /* BizConnect Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(177 99% 35%), hsl(177 99% 30%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 8% 98%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(210 8% 99%) 100%);
+    
+    /* Animations */
+    --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --radius: 0.5rem;
+
+    /* Sidebar Colors - BizConnect Clean */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 210 11% 15%;
+    --sidebar-primary: 177 99% 35%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 177 50% 95%;
+    --sidebar-accent-foreground: 210 11% 15%;
+    --sidebar-border: 210 8% 92%;
+    --sidebar-ring: 177 99% 35%;
+  }
+
+  .dark {
+    --background: 210 20% 5%;
+    --foreground: 210 8% 95%;
+    --primary: 177 99% 40%;
+    --primary-foreground: 210 20% 5%;
+    --primary-hover: 177 99% 45%;
+    --primary-muted: 177 50% 15%;
+    --primary-light: 177 99% 20%;
+    --secondary: 210 15% 12%;
+    --secondary-foreground: 210 8% 95%;
+    --muted: 210 15% 12%;
+    --muted-foreground: 210 8% 65%;
+    --success: 142 76% 41%;
+    --warning: 38 92% 55%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 210 8% 95%;
+    --card: 210 20% 5%;
+    --card-foreground: 210 8% 95%;
+    --popover: 210 20% 5%;
+    --popover-foreground: 210 8% 95%;
+    --accent: 210 15% 12%;
+    --accent-foreground: 210 8% 95%;
+    --border: 210 15% 15%;
+    --input: 210 15% 15%;
+    --ring: 177 99% 40%;
+    --gradient-primary: linear-gradient(135deg, hsl(177 99% 40%), hsl(177 99% 45%));
+    --gradient-subtle: linear-gradient(180deg, hsl(210 20% 5%), hsl(210 15% 12%));
+    --gradient-card: linear-gradient(145deg, hsl(210 20% 5%) 0%, hsl(210 15% 8%) 100%);
+    --sidebar-background: 210 25% 3%;
+    --sidebar-foreground: 210 8% 95%;
+    --sidebar-primary: 177 99% 40%;
+    --sidebar-primary-foreground: 210 25% 3%;
+    --sidebar-accent: 210 15% 10%;
+    --sidebar-accent-foreground: 210 8% 95%;
+    --sidebar-border: 210 15% 15%;
+    --sidebar-ring: 177 99% 40%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Typography Scale */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl leading-tight;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl leading-snug;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl leading-snug;
+  }
+
+  /* Improved focus styles */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2;
+  }
+
+  /* Custom scrollbar - Modern thin design */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/15 rounded-full;
+    transition: background-color 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/25;
+  }
+
+  ::-webkit-scrollbar-corner {
+    @apply bg-transparent;
+  }
+
+  /* Firefox scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(0 0 0 / 0.15) transparent;
+  }
+}
+
+@layer components {
+  /* Custom spacing utilities */
+  .spacing-xs { @apply space-y-2; }
+  .spacing-sm { @apply space-y-4; }
+  .spacing-md { @apply space-y-6; }
+  .spacing-lg { @apply space-y-8; }
+  .spacing-xl { @apply space-y-12; }
+
+  /* Card improvements */
+  .card-elevated {
+    @apply bg-gradient-card shadow-md;
+  }
+
+  .card-interactive {
+    @apply card-elevated transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5;
+  }
+
+  /* Button enhancements */
+  .btn-primary-gradient {
+    @apply bg-gradient-primary text-primary-foreground hover:shadow-primary;
+  }
+}
