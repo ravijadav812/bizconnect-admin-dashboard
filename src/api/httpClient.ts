@@ -24,7 +24,7 @@ import axios from "axios";
  * ```
  */
 const httpClient = axios.create({
-  baseURL: "https://t9bamdhugm.ap-south-1.awsapprunner.com/api/v1",
+  baseURL: import.meta.env.VITE_API_URL,,
   timeout: 10000,
   withCredentials: false,
   headers: {
