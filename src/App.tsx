@@ -47,7 +47,7 @@ const App = () => (
             <Route path="users/:id/edit" element={<EditUser />} />
             <Route path="approvals" element={<ApprovalManagement />} />
             <Route path="approvals/history" element={<ApprovalHistory />} />
-            <Route path="categories" element={<CategoryManagement />} />
+            {/* Categories route removed */}
             <Route path="analytics" element={<AnalyticsDashboard />} />
             <Route path="job-limits" element={<JobLimits />} />
             <Route path="roles" element={<div className="p-6"><h1 className="text-2xl font-bold">Role Management</h1><p>Role management coming soon...</p></div>} />

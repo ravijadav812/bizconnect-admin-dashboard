@@ -37,18 +37,13 @@ interface DashboardLayoutProps {
  * </DashboardLayout>
  * ```
  */
-export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
+export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
+  children
+}) => {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
-
-  return (
-    <div className="h-screen bg-gradient-subtle antialiased overflow-hidden">
+  return <div className="h-screen bg-gradient-subtle antialiased overflow-hidden">
       {/* Mobile sidebar overlay */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 z-40 lg:hidden bg-black/50"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+      {sidebarOpen && <div className="fixed inset-0 z-40 lg:hidden bg-black/50" onClick={() => setSidebarOpen(false)} />}
 
       <div className="flex h-full">
         {/* Sidebar - Fixed positioning */}
@@ -81,7 +76,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                 <div className="max-w-full mx-auto">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
                     <div className="flex items-center space-x-2 sm:space-x-4">
-                      <span className="font-medium">© 2024 BizConnect</span>
+                      <span className="font-medium">© 2026 BizConnect</span>
                       <span className="hidden sm:inline">•</span>
                       <span className="hidden sm:inline">Admin Dashboard v1.0</span>
                     </div>
@@ -97,8 +92,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default DashboardLayout;

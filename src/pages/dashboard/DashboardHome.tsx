@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Users, Shield, TrendingUp, TrendingDown, Activity, DollarSign, Eye, Plus, Download, RefreshCw, Building, Briefcase } from 'lucide-react';
+import { Users, Shield, TrendingUp, TrendingDown, Activity, DollarSign, Eye, RefreshCw, Building, Briefcase } from 'lucide-react';
 import { AreaChart, Area, BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { getDashboardData } from '@/services/dashboardService';
 import { useToast } from '@/hooks/use-toast';
@@ -135,11 +135,6 @@ export const DashboardHome: React.FC = () => {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-          <Button variant="outline" size="sm" className="shadow-sm text-xs sm:text-sm">
-            <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-            <span className="hidden sm:inline">Export Report</span>
-            <span className="sm:hidden">Export</span>
-          </Button>
           <Button 
             variant="outline" 
             size="sm" 
@@ -150,11 +145,6 @@ export const DashboardHome: React.FC = () => {
             <RefreshCw className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${isLoading ? 'animate-spin' : ''}`} />
             <span className="hidden sm:inline">Refresh</span>
             <span className="sm:hidden">Sync</span>
-          </Button>
-          <Button size="sm" className="shadow-md text-xs sm:text-sm">
-            <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-            <span className="hidden sm:inline">Add Widget</span>
-            <span className="sm:hidden">Add</span>
           </Button>
         </div>
       </div>

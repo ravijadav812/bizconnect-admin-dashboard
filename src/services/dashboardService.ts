@@ -1,62 +1,66 @@
-/**
- * @fileoverview Dashboard data service
- * @author Enterprise Development Team
- * @version 1.0.0
- */
-
 import httpClient from '@/api/httpClient';
 
-export interface KpiCard {
-  id: string;
+export interface KpiDataItem {
   title: string;
   value: number;
-  change: number;
-  changeType: 'increase' | 'decrease';
+  previousValue?: number;
+  change: string;
+  changeType: 'positive' | 'negative' | 'neutral';
+  trend: 'up' | 'down' | 'stable';
   icon: string;
-  format: 'number' | 'currency' | 'percentage';
+  format: 'number' | 'percentage' | 'currency';
+  breakdown?: string;
 }
 
-export interface ChartDataPoint {
-  name: string;
-  value: number;
-  [key: string]: string | number;
+export interface RegistrationDataPoint {
+  month: string;
+  providers: number;
+  clients: number;
 }
 
-export interface PieChartData {
+export interface ActiveUsersDataPoint {
+  period: string;
+  daily: number;
+  weekly: number;
+}
+
+export interface JobsDataPoint {
+  month: string;
+  created: number;
+  completed: number;
+}
+
+export interface ServicesDataPoint {
   name: string;
   value: number;
   color: string;
 }
 
-export interface RecentActivity {
-  id: string;
-  type: string;
-  message: string;
-  timestamp: string;
-  user?: string;
+export interface ApplicationStatusDataPoint {
+  name: string;
+  value: number;
+  color: string;
+}
+
+export interface RegionDataPoint {
+  region: string;
+  users: number;
+  activity: number;
 }
 
 export interface DashboardData {
-  kpiCards: KpiCard[];
-  userGrowthData: ChartDataPoint[];
-  revenueData: ChartDataPoint[];
-  categoryDistribution: PieChartData[];
-  recentActivities: RecentActivity[];
-  lastUpdated: string;
+  kpiData: KpiDataItem[];
+  registrationData: RegistrationDataPoint[];
+  activeUsersData: ActiveUsersDataPoint[];
+  jobsData: JobsDataPoint[];
+  servicesData: ServicesDataPoint[];
+  applicationStatusData: ApplicationStatusDataPoint[];
+  regionData: RegionDataPoint[];
 }
 
-/**
- * Get dashboard data for a specific time period
- */
-export const getDashboardData = async (period: 'daily' | 'weekly' | 'monthly' = 'monthly'): Promise<DashboardData> => {
-  const response = await httpClient.get('/dashboard', { params: { period } });
-  return response.data;
-};
-
-/**
- * Get dashboard summary
- */
-export const getDashboardSummary = async (): Promise<{ totalUsers: number; totalRevenue: number; activeUsers: number }> => {
-  const response = await httpClient.get('/dashboard/summary');
+export const getDashboardData = async (period: string = 'monthly'): Promise<DashboardData> => {
+  const response = await httpClient.get<DashboardData>('/admin/analytics/dashboard', {
+    params: { period }
+  });
   return response.data;
 };

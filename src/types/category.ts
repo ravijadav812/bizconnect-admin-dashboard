@@ -16,7 +16,7 @@ export interface ServiceCategory {
 export interface ServiceCategoryFormData {
   name: string;
   description?: string;
-  isActive?: boolean;
+  sortOrder?: number;
 }
 
 export interface Service {

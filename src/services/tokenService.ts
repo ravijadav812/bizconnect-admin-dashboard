@@ -1,106 +1,97 @@
 /**
- * @fileoverview Token management service
+ * @fileoverview Token management service for handling token lifecycle
  * @author Enterprise Development Team
  * @version 1.0.0
+ * @compliance ISO/IEC 12207, CMMI Level 3+
  */
 
-import Cookies from 'js-cookie';
 import httpClient from '@/api/httpClient';
 
-const ACCESS_TOKEN_KEY = 'access_token';
-const REFRESH_TOKEN_KEY = 'refresh_token';
-const TOKEN_EXPIRY_KEY = 'token_expiry';
+export interface RefreshTokenResponse {
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number;
+  tokenType: string;
+}
 
 /**
- * Store tokens in cookies
+ * Refresh access token using refresh token
+ * @param refreshToken - The refresh token
+ * @returns Promise resolving to new token data
  */
-export const storeTokens = (accessToken: string, refreshToken: string, expiresIn: number): void => {
-  const expiryTime = Date.now() + expiresIn * 1000;
-  
-  Cookies.set(ACCESS_TOKEN_KEY, accessToken, { 
-    expires: expiresIn / 86400, // Convert seconds to days
-    secure: true,
-    sameSite: 'strict'
+export async function refreshAccessToken(refreshToken: string): Promise<RefreshTokenResponse> {
+  const response = await httpClient.post('/auth/tokens/refresh', {
+    refreshToken
   });
   
-  Cookies.set(REFRESH_TOKEN_KEY, refreshToken, {
-    expires: 30, // 30 days
-    secure: true,
-    sameSite: 'strict'
-  });
-  
-  Cookies.set(TOKEN_EXPIRY_KEY, expiryTime.toString(), {
-    expires: expiresIn / 86400,
-    secure: true,
-    sameSite: 'strict'
-  });
-};
+  return response.data;
+}
 
 /**
- * Clear all tokens from storage
+ * Validate current access token
+ * @returns Promise resolving to token validation result
  */
-export const clearTokens = (): void => {
-  Cookies.remove(ACCESS_TOKEN_KEY);
-  Cookies.remove(REFRESH_TOKEN_KEY);
-  Cookies.remove(TOKEN_EXPIRY_KEY);
-};
+export async function validateToken(): Promise<any> {
+  const response = await httpClient.get('/auth/tokens/validate');
+  return response.data;
+}
 
 /**
- * Get the access token
+ * Revoke all refresh tokens for current user
+ * @returns Promise resolving when tokens are revoked
  */
-export const getAccessToken = (): string | undefined => {
-  return Cookies.get(ACCESS_TOKEN_KEY);
-};
+export async function revokeAllTokens(): Promise<void> {
+  await httpClient.delete('/auth/tokens/revoke-all');
+}
 
 /**
- * Get the refresh token
+ * Revoke tokens for current session only
+ * @returns Promise resolving when session tokens are revoked
  */
-export const getRefreshToken = (): string | undefined => {
-  return Cookies.get(REFRESH_TOKEN_KEY);
-};
+export async function revokeSession(): Promise<void> {
+  await httpClient.delete('/auth/tokens/revoke-session');
+}
 
 /**
- * Check if the access token is expired
+ * Check if access token is expired
+ * @returns boolean indicating if token is expired
  */
-export const isTokenExpired = (): boolean => {
-  const expiryTime = Cookies.get(TOKEN_EXPIRY_KEY);
-  if (!expiryTime) return true;
+export function isTokenExpired(): boolean {
+  const expiry = localStorage.getItem('tokenExpiry');
+  if (!expiry) return true;
   
-  return Date.now() >= parseInt(expiryTime, 10);
-};
+  return Date.now() >= parseInt(expiry);
+}
 
 /**
- * Get time until token expiry in milliseconds
+ * Get time until token expires in milliseconds
+ * @returns number of milliseconds until expiration, or 0 if expired
  */
-export const getTimeUntilExpiry = (): number => {
-  const expiryTime = Cookies.get(TOKEN_EXPIRY_KEY);
-  if (!expiryTime) return 0;
+export function getTimeUntilExpiry(): number {
+  const expiry = localStorage.getItem('tokenExpiry');
+  if (!expiry) return 0;
   
-  const expiry = parseInt(expiryTime, 10);
-  const remaining = expiry - Date.now();
-  
-  return Math.max(0, remaining);
-};
+  const timeLeft = parseInt(expiry) - Date.now();
+  return Math.max(0, timeLeft);
+}
 
 /**
- * Refresh the access token using the refresh token
+ * Store tokens in localStorage
+ * @param accessToken - Access token
+ * @param refreshToken - Refresh token
+ * @param expiresIn - Expiry time in seconds
  */
-export const refreshAccessToken = async (): Promise<{ accessToken: string; refreshToken: string; expiresIn: number } | null> => {
-  const refreshToken = getRefreshToken();
-  
-  if (!refreshToken) {
-    return null;
-  }
-  
-  try {
-    const response = await httpClient.post('/auth/refresh', { refreshToken });
-    const { accessToken, refreshToken: newRefreshToken, expiresIn } = response.data;
-    
-    storeTokens(accessToken, newRefreshToken, expiresIn);
-    
-    return { accessToken, refreshToken: newRefreshToken, expiresIn };
-  } catch (error) {
-    clearTokens();
-    return null;
-  }
-};
+export function storeTokens(accessToken: string, refreshToken: string, expiresIn: number): void {
+  localStorage.setItem('accessToken', accessToken);
+  localStorage.setItem('refreshToken', refreshToken);
+  localStorage.setItem('tokenExpiry', (Date.now() + (expiresIn * 1000)).toString());
+}
+
+/**
+ * Clear all stored tokens
+ */
+export function clearTokens(): void {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('tokenExpiry');
+}

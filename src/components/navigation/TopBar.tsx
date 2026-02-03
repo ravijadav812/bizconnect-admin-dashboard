@@ -10,14 +10,7 @@ import { Bell, Search, Settings, LogOut, User, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 import { useAuthStore, useCurrentUser } from '@/stores/authStore';
 import { useNavigate } from 'react-router-dom';
@@ -41,9 +34,13 @@ interface TopBarProps {
  * 
  * @returns JSX element
  */
-export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
+export const TopBar: React.FC<TopBarProps> = ({
+  onMenuClick
+}) => {
   const navigate = useNavigate();
-  const { logout } = useAuthStore();
+  const {
+    logout
+  } = useAuthStore();
   const currentUser = useCurrentUser();
 
   /**
@@ -83,16 +80,10 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
     if (!currentUser) return 'User';
     return `${currentUser.firstName} ${currentUser.lastName}`;
   };
-
-  return (
-    <header className="flex h-14 sm:h-16 items-center border-b border-border bg-card/95 backdrop-blur-md px-3 sm:px-4 lg:px-6 z-30">
+  return <header className="flex h-14 sm:h-16 items-center border-b border-border bg-card/95 backdrop-blur-md px-3 sm:px-4 lg:px-6 z-30">
       <div className="flex items-center gap-2 sm:gap-3 md:gap-4 flex-1">
         {/* Mobile Menu Button */}
-        <button
-          onClick={onMenuClick}
-          className="lg:hidden p-2 rounded-lg hover:bg-accent/80 transition-colors duration-200"
-          aria-label="Toggle menu"
-        >
+        <button onClick={onMenuClick} className="lg:hidden p-2 rounded-lg hover:bg-accent/80 transition-colors duration-200" aria-label="Toggle menu">
           <div className="w-6 h-6 flex flex-col justify-center space-y-1">
             <span className="block w-full h-0.5 bg-foreground"></span>
             <span className="block w-full h-0.5 bg-foreground"></span>
@@ -103,11 +94,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
         {/* Mobile Logo - visible on small screens */}
         <div className="flex items-center gap-2 lg:hidden">
           <div className="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-lg">
-            <img 
-              src="/lovable-uploads/77133f71-0e4e-4c8e-8f8f-b3bf0fddf8c5.png" 
-              alt="BizConnect Logo" 
-              className="w-5 h-5 object-contain"
-            />
+            <img src="/lovable-uploads/77133f71-0e4e-4c8e-8f8f-b3bf0fddf8c5.png" alt="BizConnect Logo" className="w-5 h-5 object-contain" />
           </div>
           <span className="text-lg font-semibold text-foreground hidden sm:inline">BizConnect</span>
         </div>
@@ -115,27 +102,13 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
         {/* Global Search */}
         <div className="relative flex-1 max-w-xs sm:max-w-md lg:max-w-lg">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Search..."
-            className="pl-10 pr-4 text-sm bg-background/50 border-border/50 focus:bg-background focus:border-primary/50 h-9 sm:h-10"
-            aria-label="Global search"
-          />
+          <Input type="search" placeholder="Search..." className="pl-10 pr-4 text-sm bg-background/50 border-border/50 focus:bg-background focus:border-primary/50 h-9 sm:h-10" aria-label="Global search" />
         </div>
       </div>
 
       <div className="flex items-center gap-2 sm:gap-3">
         {/* Notifications */}
-        <Button variant="ghost" size="icon" className="relative shrink-0 rounded-lg hover:bg-accent/80 h-9 w-9 sm:h-10 sm:w-10">
-          <Bell className="h-4 w-4 sm:h-5 sm:w-5" />
-          <Badge 
-            variant="destructive" 
-            className="absolute -top-1 -right-1 h-4 w-4 sm:h-5 sm:w-5 rounded-full p-0 text-xs flex items-center justify-center shadow-sm"
-          >
-            3
-          </Badge>
-          <span className="sr-only">View notifications</span>
-        </Button>
+        
 
         {/* User Menu */}
         <DropdownMenu>
@@ -186,18 +159,13 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
               <span className="font-medium">System Settings</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem 
-              onClick={handleLogout} 
-              className="cursor-pointer py-3 text-destructive focus:text-destructive focus:bg-destructive/10"
-            >
+            <DropdownMenuItem onClick={handleLogout} className="cursor-pointer py-3 text-destructive focus:text-destructive focus:bg-destructive/10">
               <LogOut className="mr-3 h-4 w-4" />
               <span className="font-medium">Sign Out</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </header>
-  );
+    </header>;
 };
-
 export default TopBar;

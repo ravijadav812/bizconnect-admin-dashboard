@@ -12,8 +12,7 @@ import {
   Users,
   UserCheck,
   BarChart3,
-  Settings,
-  FolderTree
+  Settings
 } from 'lucide-react';
 import { NavItem } from '@/types';
 import { useCurrentUser } from '@/stores/authStore';
@@ -43,11 +42,6 @@ const navigationItems: NavItem[] = [
     icon: 'UserCheck'
   },
   {
-    title: 'Categories',
-    href: '/dashboard/categories',
-    icon: 'FolderTree'
-  },
-  {
     title: 'Job Limits',
     href: '/dashboard/job-limits',
     icon: 'Settings'
@@ -62,8 +56,7 @@ const iconMap = {
   Users,
   UserCheck,
   BarChart3,
-  Settings,
-  FolderTree
+  Settings
 };
 
 /**

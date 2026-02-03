@@ -224,9 +224,8 @@ const ApprovalHistory: React.FC = () => {
                   <SelectItem value="auckland">Auckland</SelectItem>
                   <SelectItem value="bay_of_plenty">Bay of Plenty</SelectItem>
                   <SelectItem value="canterbury">Canterbury</SelectItem>
-                  <SelectItem value="gisborne">Gisborne</SelectItem>
                   <SelectItem value="hawkes_bay">Hawke's Bay</SelectItem>
-                  <SelectItem value="manawatu_wanganui">Manawatu-Wanganui</SelectItem>
+                  <SelectItem value="manawatu_whanganui">Manawatū-Whanganui</SelectItem>
                   <SelectItem value="marlborough">Marlborough</SelectItem>
                   <SelectItem value="nelson">Nelson</SelectItem>
                   <SelectItem value="northland">Northland</SelectItem>

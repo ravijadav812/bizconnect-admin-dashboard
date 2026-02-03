@@ -72,7 +72,6 @@ export const CategoryManagement: React.FC = () => {
   const [formData, setFormData] = useState<ServiceCategoryFormData>({
     name: '',
     description: '',
-    isActive: true,
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -194,7 +193,6 @@ export const CategoryManagement: React.FC = () => {
     setFormData({
       name: category.name,
       description: category.description || '',
-      isActive: category.isActive,
     });
     setIsEditDialogOpen(true);
   };
@@ -208,7 +206,6 @@ export const CategoryManagement: React.FC = () => {
     setFormData({
       name: '',
       description: '',
-      isActive: true,
     });
     setSelectedCategory(null);
   };
@@ -245,46 +242,6 @@ export const CategoryManagement: React.FC = () => {
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Categories</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{categories.length}</div>
-            <p className="text-xs text-muted-foreground">
-              All service categories
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {categories.filter(c => c.isActive).length}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Currently active
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Inactive</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {categories.filter(c => !c.isActive).length}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Disabled categories
-            </p>
-          </CardContent>
-        </Card>
-      </div>
 
       {/* Search and Filters */}
       <Card>
@@ -417,14 +374,6 @@ export const CategoryManagement: React.FC = () => {
                 rows={3}
               />
             </div>
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="isActive"
-                checked={formData.isActive}
-                onCheckedChange={(checked) => setFormData({ ...formData, isActive: checked })}
-              />
-              <Label htmlFor="isActive">Active</Label>
-            </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
@@ -465,14 +414,6 @@ export const CategoryManagement: React.FC = () => {
                 placeholder="Category description"
                 rows={3}
               />
-            </div>
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="edit-isActive"
-                checked={formData.isActive}
-                onCheckedChange={(checked) => setFormData({ ...formData, isActive: checked })}
-              />
-              <Label htmlFor="edit-isActive">Active</Label>
             </div>
           </div>
           <DialogFooter>

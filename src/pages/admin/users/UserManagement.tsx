@@ -7,15 +7,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Plus, 
   Search, 
-  Filter, 
-  Download, 
-  Edit, 
-  Trash2, 
   MoreHorizontal,
-  ChevronDown,
-  Eye
+  Eye,
+  UserX,
+  Trash2
 } from 'lucide-react';
 import {
   Table,
@@ -102,7 +98,7 @@ const mockUsers: User[] = [
 ];
 
 const departments = ['All', 'Engineering', 'Marketing', 'Sales', 'HR', 'Finance', 'Operations'];
-const roles = ['All', ...Object.values(UserRole)];
+const roles = ['All', UserRole.ADMIN, UserRole.USER];
 
 export const UserManagement: React.FC = () => {
   const navigate = useNavigate();
@@ -132,25 +128,23 @@ export const UserManagement: React.FC = () => {
   const startIndex = (currentPage - 1) * usersPerPage;
   const paginatedUsers = filteredUsers.slice(startIndex, startIndex + usersPerPage);
 
-  const handleEditUser = (userId: string) => {
+
+  const handleViewUser = (userId: string) => {
+    navigate(`/dashboard/users/${userId}`);
+  };
+
+  const handleDeactivateUser = (userId: string) => {
     toast({
-      title: 'Edit User',
-      description: `Editing user ${userId}`,
+      title: 'User Deactivated',
+      description: `User ${userId} has been deactivated`,
     });
   };
 
   const handleDeleteUser = (userId: string) => {
     toast({
-      title: 'Delete User',
-      description: `User ${userId} would be deleted`,
+      title: 'User Deleted',
+      description: `User ${userId} has been deleted`,
       variant: 'destructive',
-    });
-  };
-
-  const handleViewUser = (userId: string) => {
-    toast({
-      title: 'View User',
-      description: `Viewing user details for ${userId}`,
     });
   };
 
@@ -180,12 +174,6 @@ export const UserManagement: React.FC = () => {
           <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">
             Manage system users, roles, and permissions
           </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-          <Button onClick={() => navigate('/dashboard/users/new')} className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            Add User
-          </Button>
         </div>
       </div>
 
@@ -284,10 +272,7 @@ export const UserManagement: React.FC = () => {
                   ))}
                 </SelectContent>
               </Select>
-              <Button variant="outline" className="flex items-center gap-2">
-                <Download className="h-4 w-4" />
-                Export
-              </Button>
+{/* Export button hidden - functionality not implemented */}
             </div>
           </CardContent>
         </Card>
@@ -309,7 +294,7 @@ export const UserManagement: React.FC = () => {
                     <TableHead className="hidden sm:table-cell">Department</TableHead>
                     <TableHead className="hidden md:table-cell">Role</TableHead>
                     <TableHead className="hidden lg:table-cell">Status</TableHead>
-                    <TableHead className="hidden lg:table-cell">Created</TableHead>
+                    
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -319,13 +304,15 @@ export const UserManagement: React.FC = () => {
                       <TableCell>
                         <div className="flex items-center gap-3">
                           <Avatar className="h-8 w-8">
-                            <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.firstName} ${user.lastName}`} />
+                            <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.displayName || user.email}`} />
                             <AvatarFallback>
-                              {user.firstName[0]}{user.lastName[0]}
+                              {(user.displayName || user.email || 'U').substring(0, 2).toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
                           <div>
-                            <div className="font-medium">{user.firstName} {user.lastName}</div>
+                            <div className="font-medium">
+                              {user.displayName || 'No Name'}
+                            </div>
                             <div className="text-sm text-muted-foreground">{user.email}</div>
                           </div>
                         </div>
@@ -341,9 +328,6 @@ export const UserManagement: React.FC = () => {
                           {user.isActive ? 'Active' : 'Inactive'}
                         </Badge>
                       </TableCell>
-                      <TableCell className="hidden lg:table-cell">
-                        {user.createdAt.toLocaleDateString()}
-                      </TableCell>
                       <TableCell className="text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -357,9 +341,9 @@ export const UserManagement: React.FC = () => {
                               <Eye className="mr-2 h-4 w-4" />
                               View
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleEditUser(user.id)}>
-                              <Edit className="mr-2 h-4 w-4" />
-                              Edit
+                            <DropdownMenuItem onClick={() => handleDeactivateUser(user.id)}>
+                              <UserX className="mr-2 h-4 w-4" />
+                              Deactivate
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem 
